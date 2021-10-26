@@ -30,6 +30,8 @@ RUN apt-get install -y docker-ce=5:20.10.10~3-0~ubuntu-focal docker-ce-cli=5:20.
 
 RUN pip3 install j2cli
 
+RUN apt-get install -y sudo
+
 VOLUME /projects/sandyli/gavin/falcon
 
 #create the docker group
@@ -38,7 +40,7 @@ VOLUME /projects/sandyli/gavin/falcon
 #add user, create user's home dir, set password && add to group docker
 #https://stackoverflow.com/questions/27701930/how-to-add-users-to-docker-container
 RUN useradd --system --create-home --password 123456 --no-log-init --shell /bin/bash --gid docker sandyli
-
+RUN usermod -G root sandyli
 USER sandyli:docker
 
 #VOLUME /projects/sandyli/gavin/falcon
