@@ -10,14 +10,30 @@ ENV TZ=UTC\
 RUN apt-get update && apt-get install -y \
     python3-pip\
     make\
-    git-all
+    git-all\
+    curl\
+#install for setfacl: command not found
+    acl\
+    lsb-release\
+    software-properties-common\
+    vim
+
+#install docker
+#RUN curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -
+RUN curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | apt-key add -
+RUN add-apt-repository "deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu $(lsb_release -cs) stable"
+RUN apt-get update
+
+RUN apt-cache madison docker-ce
+
+RUN apt-get install -y docker-ce=5:20.10.10~3-0~ubuntu-focal docker-ce-cli=5:20.10.10~3-0~ubuntu-focal containerd.io
 
 RUN pip3 install j2cli
 
 VOLUME /projects/sandyli/gavin/falcon
 
 #create the docker group
-RUN groupadd docker
+#RUN groupadd docker
 
 #add user, create user's home dir, set password && add to group docker
 #https://stackoverflow.com/questions/27701930/how-to-add-users-to-docker-container
@@ -25,4 +41,5 @@ RUN useradd --system --create-home --password 123456 --no-log-init --shell /bin/
 
 USER sandyli:docker
 
+#VOLUME /projects/sandyli/gavin/falcon
 #CMD  cd ./projects/sandyli/gavin/falcon
