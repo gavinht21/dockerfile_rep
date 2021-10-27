@@ -30,7 +30,8 @@ RUN apt-get install -y docker-ce=5:20.10.10~3-0~ubuntu-focal docker-ce-cli=5:20.
 
 RUN pip3 install j2cli
 
-RUN apt-get install -y sudo
+RUN apt-get install -y sudo \
+    wget
 
 VOLUME /projects/sandyli/gavin/falcon
 
