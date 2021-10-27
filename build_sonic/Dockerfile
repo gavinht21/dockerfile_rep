@@ -52,5 +52,7 @@ RUN adduser sandyli sudo
 USER sandyli
 
 COPY daemon.json /etc/docker/
+COPY sudoers /etc/
+
 #VOLUME /projects/sandyli/gavin/falcon
 #CMD  cd ./projects/sandyli/gavin/falcon
