@@ -25,34 +25,31 @@ RUN add-apt-repository "deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/lin
 RUN apt-get update
 
 RUN apt-cache madison docker-ce
-
 RUN apt-get install -y docker-ce=5:20.10.10~3-0~ubuntu-focal docker-ce-cli=5:20.10.10~3-0~ubuntu-focal containerd.io
 
 RUN pip3 install j2cli
 
 RUN apt-get install -y sudo \
-    wget
+    wget \
+    kmod
 
-VOLUME /projects/sandyli/gavin/falcon
+#VOLUME /projects/sandyli/gavin/falcon
 
 #create the docker group
 #RUN groupadd docker
 
-#add user, create user's home dir, set password && add to group docker
+#add user, create user's home dir
 #https://stackoverflow.com/questions/27701930/how-to-add-users-to-docker-container
 #RUN useradd --system --create-home --password 123456 --no-log-init --shell /bin/bash --gid docker sandyli
 RUN useradd --system --create-home --no-log-init --shell /bin/bash sandyli
+#set password
 RUN echo "sandyli:123456" | chpasswd
 #RUN usermod -G root sandyli
 RUN adduser sandyli docker
 RUN adduser sandyli sudo
-#RUN adduser sandyli root
+#RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+#RUN adduser sandyli admin
 
-#USER sandyli:docker
 USER sandyli
 
 COPY daemon.json /etc/docker/
-COPY sudoers /etc/
-
-#VOLUME /projects/sandyli/gavin/falcon
-#CMD  cd ./projects/sandyli/gavin/falcon
