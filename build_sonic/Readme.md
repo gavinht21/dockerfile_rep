@@ -1,4 +1,4 @@
-# build image
+# build docker image
 docker build -f Dockerfile -t sonic-build-image:v1.0 .
 
 # run container in daemon
